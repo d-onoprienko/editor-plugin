@@ -1,18 +1,33 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.donoprienko.editorplugin</id>
-    <name>editor-plugin</name>
-    <vendor>d-onoprienko</vendor>
+    <id>com.kamagames.editorplugin</id>
+    <name>editor</name>
+    <vendor>KamaGames</vendor>
 
+    <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.donoprienko.editorplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <localInspection language="JAVA"
+                         displayName="Test inspection"
+                         groupName="Test"
+                         enabledByDefault="true"
+                         implementationClass="com.kamagames.editorplugin.JsonPropertyWithoutNullableInspection"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.donoprienko.editorplugin.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection language="JAVA"
+                         displayName="Test inspection"
+                         groupName="Test"
+                         enabledByDefault="true"
+                         implementationClass="com.kamagames.editorplugin.InjectOnUnusedConstructorInspection"/>
+    </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection language="JAVA"
+                         displayName="Test inspection"
+                         groupName="Test"
+                         enabledByDefault="true"
+                         implementationClass="com.kamagames.editorplugin.NullableBeforeAccessModifiersInspection"/>
+    </extensions>
 </idea-plugin>
