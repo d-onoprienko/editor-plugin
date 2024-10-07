@@ -11,23 +11,30 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
-                         displayName="Test inspection"
-                         groupName="Test"
+                         displayName="@JsonProperty should be used with @Nullable"
+                         groupName="Annotation inspections"
                          enabledByDefault="true"
                          implementationClass="com.kamagames.editorplugin.JsonPropertyWithoutNullableInspection"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
-                         displayName="Test inspection"
-                         groupName="Test"
+                         displayName="Constructor annotated with @Inject should be used or private"
+                         groupName="Annotation inspections"
                          enabledByDefault="true"
                          implementationClass="com.kamagames.editorplugin.InjectOnUnusedConstructorInspection"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
-                         displayName="Test inspection"
-                         groupName="Test"
+                         displayName="Nullable should be placed before returning type"
+                         groupName="Annotation inspections"
                          enabledByDefault="true"
                          implementationClass="com.kamagames.editorplugin.NullableBeforeModifiersInspection"/>
+    </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection language="JAVA"
+                         displayName="Boxed types should be used with @Nullable annotation"
+                         groupName="Annotation inspections"
+                         enabledByDefault="true"
+                         implementationClass="com.kamagames.editorplugin.NullableBeforeBoxedTypeInspection"/>
     </extensions>
 </idea-plugin>
