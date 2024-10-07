@@ -20,7 +20,7 @@
         <localInspection language="JAVA"
                          displayName="Constructor annotated with @Inject should be used or private"
                          groupName="Annotation inspections"
-                         enabledByDefault="true"
+                         enabledByDefault="false"
                          implementationClass="com.kamagames.editorplugin.InjectOnUnusedConstructorInspection"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">

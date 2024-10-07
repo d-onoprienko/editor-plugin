@@ -25,7 +25,7 @@ class InjectOnUnusedConstructorInspection : AbstractBaseJavaLocalInspectionTool(
         method: PsiMethod,
         manager: InspectionManager,
         isOnTheFly: Boolean
-    ): Array<ProblemDescriptor>? {
+    ): Array<ProblemDescriptor> {
         val problemsHolder = ProblemsHolder(manager, method.containingFile, isOnTheFly)
         if (method.isConstructor) {
             if (isNotUsed(method) && isAnnotatedInject(method) && isPublic(method)) {
