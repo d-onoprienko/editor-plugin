@@ -8,6 +8,7 @@ import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.refactoring.suggested.createSmartPointer
+import com.kamagames.editorplugin.NullableBeforeModifiersInspection.Companion.NULLABLE_ANNOTATION
 
 class NullableBeforeModifiersInspection : AbstractBaseJavaLocalInspectionTool() {
 
@@ -54,14 +55,10 @@ class PutNullableOnTheReturnTypeFix(
             "nullable_annotation_fixes",
             {
                 val nullableAnnotation = nullableAnnotationPointer.element!!
-                val copiedNullableAnnotation = nullableAnnotation.copy()
                 nullableAnnotation.delete()
-                method.returnTypeElement?.addBefore(
-                    copiedNullableAnnotation,
-                    method.returnTypeElement
-                )
-                CodeStyleManager.getInstance(project).reformat(method)
-                JavaCodeStyleManager.getInstance(project).shortenClassReferences(copiedNullableAnnotation)
+                val addedNullableAnnotation = method.returnTypeElement?.addAnnotation(NULLABLE_ANNOTATION)!!
+                JavaCodeStyleManager.getInstance(project).shortenClassReferences(addedNullableAnnotation)
+                CodeStyleManager.getInstance(project).reformat(method.containingFile)
             },
             method.containingFile
         )
