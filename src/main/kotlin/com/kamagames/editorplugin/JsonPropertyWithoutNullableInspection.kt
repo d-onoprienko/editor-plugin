@@ -6,10 +6,7 @@ import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiAnnotation
-import com.intellij.psi.PsiMethod
-import com.intellij.psi.PsiModifierListOwner
+import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 
@@ -33,7 +30,7 @@ class JsonPropertyWithoutNullableInspection : AbstractBaseJavaLocalInspectionToo
                 val jacksonAnnotation = parameter.getAnnotation(JSON_PROPERTY_ANNOTATION)
                 if (jacksonAnnotation != null) {
                     val nullableAnnotation = parameter.getAnnotation(NULLABLE_ANNOTATION)
-                    if (nullableAnnotation == null) {
+                    if (parameter.type !is PsiPrimitiveType && nullableAnnotation == null) {
                         problemsHolder.registerProblem(
                             parameter, PROBLEM_DESCRIPTION, AddAnnotationAfterAnotherFix(
                                 NULLABLE_ANNOTATION, jacksonAnnotation, parameter

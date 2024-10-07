@@ -28,6 +28,6 @@
                          displayName="Test inspection"
                          groupName="Test"
                          enabledByDefault="true"
-                         implementationClass="com.kamagames.editorplugin.NullableBeforeAccessModifiersInspection"/>
+                         implementationClass="com.kamagames.editorplugin.NullableBeforeModifiersInspection"/>
     </extensions>
 </idea-plugin>
