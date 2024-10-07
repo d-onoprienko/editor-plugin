@@ -1,15 +1,14 @@
 package com.kamagames.editorplugin
 
 import com.intellij.codeInsight.intention.AddAnnotationFix
-import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
-import com.intellij.codeInspection.InspectionManager
-import com.intellij.codeInspection.ProblemDescriptor
-import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.codeInspection.*
 import com.intellij.psi.PsiField
 
 class NullableBeforeBoxedTypeInspection : AbstractBaseJavaLocalInspectionTool() {
 
     companion object {
+        private const val NULLABLE_ANNOTATION = "javax.annotation.Nullable"
+        private const val PROBLEM_DESCRIPTION = "Boxed types shoul be annotated Nullable"
         private val BOXED_TYPES = setOf(
             "java.lang.Boolean",
             "java.lang.Integer",
@@ -28,11 +27,11 @@ class NullableBeforeBoxedTypeInspection : AbstractBaseJavaLocalInspectionTool() 
         isOnTheFly: Boolean
     ): Array<ProblemDescriptor> {
         val problemsHolder = ProblemsHolder(manager, field.containingFile, isOnTheFly)
-        if (BOXED_TYPES.contains(field.type.canonicalText) && !field.hasAnnotation("javax.annotation.Nullable")) {
+        if (BOXED_TYPES.contains(field.type.canonicalText) && !field.hasAnnotation(NULLABLE_ANNOTATION)) {
             problemsHolder.registerProblem(
                 field,
-                "Nullable before boxed type",
-                AddAnnotationFix("javax.annotation.Nullable", field)
+                PROBLEM_DESCRIPTION,
+                AddAnnotationFix(NULLABLE_ANNOTATION, field)
             )
         }
         return problemsHolder.resultsArray

@@ -44,11 +44,9 @@ class InjectOnUnusedConstructorInspection : AbstractBaseJavaLocalInspectionTool(
     }
 
     private fun isAnnotatedInject(method: PsiMethod): Boolean {
-        return AnnotationUtil.isAnnotated(method, JAVAX_INJECT_ANNOTATION, 0) || AnnotationUtil.isAnnotated(
-            method,
-            JAKARTA_INJECT_ANNOTATION,
-            0
-        )
+        return AnnotationUtil.isAnnotated(method, JAVAX_INJECT_ANNOTATION, 0) ||
+                AnnotationUtil.isAnnotated(method, JAKARTA_INJECT_ANNOTATION, 0) ||
+                AnnotationUtil.isAnnotated(method, GUICE_INJECT_ANNOTATION, 0)
     }
 
     private fun isPublic(method: PsiMethod): Boolean {
