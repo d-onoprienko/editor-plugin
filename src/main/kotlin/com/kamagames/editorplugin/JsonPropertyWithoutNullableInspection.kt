@@ -9,6 +9,7 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
+import com.intellij.refactoring.suggested.createSmartPointer
 
 class JsonPropertyWithoutNullableInspection : AbstractBaseJavaLocalInspectionTool() {
 
@@ -33,7 +34,9 @@ class JsonPropertyWithoutNullableInspection : AbstractBaseJavaLocalInspectionToo
                     if (parameter.type !is PsiPrimitiveType && nullableAnnotation == null) {
                         problemsHolder.registerProblem(
                             parameter, PROBLEM_DESCRIPTION, AddAnnotationAfterAnotherFix(
-                                NULLABLE_ANNOTATION, jacksonAnnotation, parameter
+                                NULLABLE_ANNOTATION,
+                                jacksonAnnotation.createSmartPointer(),
+                                parameter.createSmartPointer()
                             )
                         )
                     }
@@ -47,23 +50,23 @@ class JsonPropertyWithoutNullableInspection : AbstractBaseJavaLocalInspectionToo
 
 class AddAnnotationAfterAnotherFix(
     val annotationToAdd: String,
-    val anchorAnnotation: PsiAnnotation,
-    val annotatedElement: PsiModifierListOwner
-) : AddAnnotationFix(annotationToAdd, annotatedElement) {
+    val anchorAnnotationPointer: SmartPsiElementPointer<PsiAnnotation>,
+    val annotatedElementPointer: SmartPsiElementPointer<PsiModifierListOwner>
+) : AddAnnotationFix(annotationToAdd, annotatedElementPointer.element!!) {
     override fun applyFix() {
-        val containingFile = annotatedElement.containingFile
-        val project = containingFile.project
+        val containingFile = annotatedElementPointer.element?.containingFile
+        val project = containingFile?.project!!
         WriteCommandAction.runWriteCommandAction(
             project,
             "Add_annotation_after_another",
             "annotation_fixes",
             {
-                val modifierList = annotatedElement.modifierList
+                val modifierList = annotatedElementPointer.element?.modifierList
                 val elementFactory = JavaPsiFacade.getElementFactory(project)
                 val nullableAnnotation =
                     elementFactory.createAnnotationFromText("@$annotationToAdd", null)
-                modifierList?.addAfter(nullableAnnotation, anchorAnnotation)
-                CodeStyleManager.getInstance(project).reformat(annotatedElement)
+                modifierList?.addAfter(nullableAnnotation, anchorAnnotationPointer.element)
+                CodeStyleManager.getInstance(project).reformat(annotatedElementPointer.element!!)
                 JavaCodeStyleManager.getInstance(project).shortenClassReferences(nullableAnnotation)
             },
             containingFile
