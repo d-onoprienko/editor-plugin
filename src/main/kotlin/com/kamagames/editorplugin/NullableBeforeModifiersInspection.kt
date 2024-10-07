@@ -54,8 +54,7 @@ class PutNullableOnTheReturnTypeFix(
             "Put_@Nullable_on_the_return_type",
             "nullable_annotation_fixes",
             {
-                val nullableAnnotation = nullableAnnotationPointer.element!!
-                nullableAnnotation.delete()
+                nullableAnnotationPointer.element!!.delete()
                 val addedNullableAnnotation = method.returnTypeElement?.addAnnotation(NULLABLE_ANNOTATION)!!
                 JavaCodeStyleManager.getInstance(project).shortenClassReferences(addedNullableAnnotation)
                 CodeStyleManager.getInstance(project).reformat(method.containingFile)
