@@ -13,6 +13,7 @@ class NullableBeforeModifiersInspection : AbstractBaseJavaLocalInspectionTool() 
 
     companion object {
         const val NULLABLE_ANNOTATION = "javax.annotation.Nullable"
+        const val PROBLEM_DESCRIPTION = "@Nullable should be placed before returning type"
     }
 
     override fun checkMethod(
@@ -25,7 +26,7 @@ class NullableBeforeModifiersInspection : AbstractBaseJavaLocalInspectionTool() 
         if (nullableAnnotation != null && method.modifierList.lastChild != nullableAnnotation) {
             problemsHolder.registerProblem(
                 method,
-                "@Nullable should be at the end of modifier list",
+                PROBLEM_DESCRIPTION,
                 PutNullableOnTheReturnTypeFix(method.createSmartPointer(), nullableAnnotation.createSmartPointer())
             )
         }
