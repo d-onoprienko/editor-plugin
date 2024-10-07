@@ -10,15 +10,13 @@ import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.refactoring.suggested.createSmartPointer
+import com.kamagames.editorplugin.Annotations.Companion.JAVAX_NULLABLE
+import com.kamagames.editorplugin.Annotations.Companion.JSON_PROPERTY
+
+private const val PROBLEM_DESCRIPTION = "Properties that are set by Jackson should be marked as @Nullable"
+
 
 class JsonPropertyWithoutNullableInspection : AbstractBaseJavaLocalInspectionTool() {
-
-    companion object {
-        const val JSON_PROPERTY_ANNOTATION = "com.fasterxml.jackson.annotation.JsonProperty"
-        const val NULLABLE_ANNOTATION = "javax.annotation.Nullable"
-
-        const val PROBLEM_DESCRIPTION = "Properties that are set by Jackson should be marked as @Nullable"
-    }
 
     override fun checkMethod(
         method: PsiMethod,
@@ -28,13 +26,13 @@ class JsonPropertyWithoutNullableInspection : AbstractBaseJavaLocalInspectionToo
         val problemsHolder = ProblemsHolder(manager, method.containingFile, isOnTheFly)
         if (method.isConstructor) {
             method.parameterList.parameters.forEach { parameter ->
-                val jacksonAnnotation = parameter.getAnnotation(JSON_PROPERTY_ANNOTATION)
+                val jacksonAnnotation = parameter.getAnnotation(JSON_PROPERTY)
                 if (jacksonAnnotation != null) {
-                    val nullableAnnotation = parameter.getAnnotation(NULLABLE_ANNOTATION)
+                    val nullableAnnotation = parameter.getAnnotation(JAVAX_NULLABLE)
                     if (parameter.type !is PsiPrimitiveType && nullableAnnotation == null) {
                         problemsHolder.registerProblem(
                             parameter, PROBLEM_DESCRIPTION, AddAnnotationAfterAnotherFix(
-                                NULLABLE_ANNOTATION,
+                                JAVAX_NULLABLE,
                                 jacksonAnnotation.createSmartPointer(),
                                 parameter.createSmartPointer()
                             )

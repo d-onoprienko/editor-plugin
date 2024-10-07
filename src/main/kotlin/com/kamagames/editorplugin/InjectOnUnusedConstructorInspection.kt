@@ -9,17 +9,14 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.searches.MethodReferencesSearch
+import com.kamagames.editorplugin.Annotations.Companion.GUICE_INJECT
+import com.kamagames.editorplugin.Annotations.Companion.JAKARTA_INJECT
+import com.kamagames.editorplugin.Annotations.Companion.JAVAX_INJECT
+
+private const val PROBLEM_DESCRIPTION = "Unused constructors annotated with @Inject should be declared private"
+
 
 class InjectOnUnusedConstructorInspection : AbstractBaseJavaLocalInspectionTool() {
-
-    companion object {
-        val JAVAX_INJECT_ANNOTATION = "javax.inject.Inject"
-        val JAKARTA_INJECT_ANNOTATION = "jakarta.inject.Inject"
-        val GUICE_INJECT_ANNOTATION = "com.google.Inject"
-
-        val PROBLEM_DESCRIPTION = "Unused constructors annotated with @Inject should be declared private"
-    }
-
 
     override fun checkMethod(
         method: PsiMethod,
@@ -44,9 +41,9 @@ class InjectOnUnusedConstructorInspection : AbstractBaseJavaLocalInspectionTool(
     }
 
     private fun isAnnotatedInject(method: PsiMethod): Boolean {
-        return AnnotationUtil.isAnnotated(method, JAVAX_INJECT_ANNOTATION, 0) ||
-                AnnotationUtil.isAnnotated(method, JAKARTA_INJECT_ANNOTATION, 0) ||
-                AnnotationUtil.isAnnotated(method, GUICE_INJECT_ANNOTATION, 0)
+        return AnnotationUtil.isAnnotated(method, JAVAX_INJECT, 0) ||
+                AnnotationUtil.isAnnotated(method, JAKARTA_INJECT, 0) ||
+                AnnotationUtil.isAnnotated(method, GUICE_INJECT, 0)
     }
 
     private fun isPublic(method: PsiMethod): Boolean {

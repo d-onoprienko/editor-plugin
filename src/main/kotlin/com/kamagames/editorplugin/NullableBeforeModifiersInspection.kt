@@ -8,14 +8,12 @@ import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.refactoring.suggested.createSmartPointer
-import com.kamagames.editorplugin.NullableBeforeModifiersInspection.Companion.NULLABLE_ANNOTATION
+import com.kamagames.editorplugin.Annotations.Companion.JAVAX_NULLABLE
+
+private const val PROBLEM_DESCRIPTION = "@Nullable should be placed before returning type"
+
 
 class NullableBeforeModifiersInspection : AbstractBaseJavaLocalInspectionTool() {
-
-    companion object {
-        const val NULLABLE_ANNOTATION = "javax.annotation.Nullable"
-        const val PROBLEM_DESCRIPTION = "@Nullable should be placed before returning type"
-    }
 
     override fun checkMethod(
         method: PsiMethod,
@@ -23,7 +21,7 @@ class NullableBeforeModifiersInspection : AbstractBaseJavaLocalInspectionTool() 
         isOnTheFly: Boolean
     ): Array<ProblemDescriptor> {
         val problemsHolder = ProblemsHolder(manager, method.containingFile, isOnTheFly)
-        val nullableAnnotation = AnnotationUtil.findAnnotation(method, NULLABLE_ANNOTATION)
+        val nullableAnnotation = AnnotationUtil.findAnnotation(method, JAVAX_NULLABLE)
         if (nullableAnnotation != null && method.modifierList.lastChild != nullableAnnotation) {
             problemsHolder.registerProblem(
                 method,
@@ -55,7 +53,7 @@ class PutNullableOnTheReturnTypeFix(
             "nullable_annotation_fixes",
             {
                 nullableAnnotationPointer.element!!.delete()
-                val addedNullableAnnotation = method.returnTypeElement?.addAnnotation(NULLABLE_ANNOTATION)!!
+                val addedNullableAnnotation = method.returnTypeElement?.addAnnotation(JAVAX_NULLABLE)!!
                 JavaCodeStyleManager.getInstance(project).shortenClassReferences(addedNullableAnnotation)
                 CodeStyleManager.getInstance(project).reformat(method.containingFile)
             },
