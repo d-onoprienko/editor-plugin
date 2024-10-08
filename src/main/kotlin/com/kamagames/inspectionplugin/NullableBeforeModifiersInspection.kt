@@ -1,4 +1,4 @@
-package com.kamagames.editorplugin
+package com.kamagames.inspectionplugin
 
 import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.codeInspection.*
@@ -8,8 +8,8 @@ import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.refactoring.suggested.createSmartPointer
-import com.kamagames.editorplugin.Annotations.Companion.JAKARTA_NULLABLE
-import com.kamagames.editorplugin.Annotations.Companion.JAVAX_NULLABLE
+import com.kamagames.inspectionplugin.Annotations.Companion.JAKARTA_NULLABLE
+import com.kamagames.inspectionplugin.Annotations.Companion.JAVAX_NULLABLE
 
 private const val PROBLEM_DESCRIPTION = "@Nullable should be placed before returning type"
 

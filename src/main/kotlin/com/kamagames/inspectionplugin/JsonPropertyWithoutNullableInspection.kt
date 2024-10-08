@@ -1,4 +1,4 @@
-package com.kamagames.editorplugin
+package com.kamagames.inspectionplugin
 
 import com.intellij.codeInsight.intention.AddAnnotationFix
 import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
@@ -10,8 +10,8 @@ import com.intellij.psi.*
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.refactoring.suggested.createSmartPointer
-import com.kamagames.editorplugin.Annotations.Companion.JAVAX_NULLABLE
-import com.kamagames.editorplugin.Annotations.Companion.JSON_PROPERTY
+import com.kamagames.inspectionplugin.Annotations.Companion.JAVAX_NULLABLE
+import com.kamagames.inspectionplugin.Annotations.Companion.JSON_PROPERTY
 
 private const val PROBLEM_DESCRIPTION = "Properties that are set by Jackson should be marked as @Nullable"
 

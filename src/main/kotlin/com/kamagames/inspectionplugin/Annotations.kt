@@ -1,4 +1,4 @@
-package com.kamagames.editorplugin
+package com.kamagames.inspectionplugin
 
 class Annotations {
     companion object {

@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.kamagames.editorplugin</id>
+    <id>com.kamagames.inspectionplugin</id>
     <name>editor</name>
     <vendor>KamaGames</vendor>
 
@@ -14,27 +14,27 @@
                          displayName="@JsonProperty should be used with @Nullable"
                          groupName="Annotation inspections"
                          enabledByDefault="true"
-                         implementationClass="com.kamagames.editorplugin.JsonPropertyWithoutNullableInspection"/>
+                         implementationClass="com.kamagames.inspectionplugin.JsonPropertyWithoutNullableInspection"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
                          displayName="Constructor annotated with @Inject should be used or private"
                          groupName="Annotation inspections"
                          enabledByDefault="false"
-                         implementationClass="com.kamagames.editorplugin.InjectOnUnusedConstructorInspection"/>
+                         implementationClass="com.kamagames.inspectionplugin.InjectOnUnusedConstructorInspection"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
                          displayName="Nullable should be placed before returning type"
                          groupName="Annotation inspections"
                          enabledByDefault="true"
-                         implementationClass="com.kamagames.editorplugin.NullableBeforeModifiersInspection"/>
+                         implementationClass="com.kamagames.inspectionplugin.NullableBeforeModifiersInspection"/>
     </extensions>
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
                          displayName="Boxed types should be used with @Nullable annotation"
                          groupName="Annotation inspections"
                          enabledByDefault="true"
-                         implementationClass="com.kamagames.editorplugin.NullableBeforeBoxedTypeInspection"/>
+                         implementationClass="com.kamagames.inspectionplugin.NullableBeforeBoxedTypeInspection"/>
     </extensions>
 </idea-plugin>

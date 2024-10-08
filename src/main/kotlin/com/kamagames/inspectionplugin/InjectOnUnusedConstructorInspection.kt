@@ -1,4 +1,4 @@
-package com.kamagames.editorplugin
+package com.kamagames.inspectionplugin
 
 import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.codeInsight.daemon.impl.quickfix.ModifierFix
@@ -9,9 +9,9 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.searches.MethodReferencesSearch
-import com.kamagames.editorplugin.Annotations.Companion.GUICE_INJECT
-import com.kamagames.editorplugin.Annotations.Companion.JAKARTA_INJECT
-import com.kamagames.editorplugin.Annotations.Companion.JAVAX_INJECT
+import com.kamagames.inspectionplugin.Annotations.Companion.GUICE_INJECT
+import com.kamagames.inspectionplugin.Annotations.Companion.JAKARTA_INJECT
+import com.kamagames.inspectionplugin.Annotations.Companion.JAVAX_INJECT
 
 private const val PROBLEM_DESCRIPTION = "Unused constructors annotated with @Inject should be declared private"
 
