@@ -1,6 +1,8 @@
+import dev.bmac.gradle.intellij.PluginUploader
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import java.util.*
 
 plugins {
     id("java") // Java support
@@ -8,11 +10,30 @@ plugins {
     alias(libs.plugins.intelliJPlatform) // IntelliJ Platform Gradle Plugin
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    alias(libs.plugins.uploader) // Gradle Upload plugin
 }
-
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
+tasks.generateBlockMap.configure {
+    dependsOn(project.tasks.named("buildPlugin"))
+}
+
+tasks.uploadPlugin.configure {
+    val archive = project.tasks.buildPlugin.get().archiveFile
+    val username = "admin"
+    val password = "admin2"
+    url.set("http://localhost:8081/repository/idea-plugin-repo/")
+    pluginName.set(project.name)
+    file.set(archive.get())
+    pluginId.set(project.group.toString())
+    version.set(project.version.toString())
+    pluginDescription.set("desc")
+    changeNotes.set("changes")
+    repoType.set(PluginUploader.RepoType.REST_PUT)
+    // Example for Basic type authentication
+    authentication.set("Basic " + String(Base64.getEncoder().encode("$username:$password".encodeToByteArray())))
+}
 // Set the JVM language level used to build the project.
 kotlin {
     jvmToolchain(17)
