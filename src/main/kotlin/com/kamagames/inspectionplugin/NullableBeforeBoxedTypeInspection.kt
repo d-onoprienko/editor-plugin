@@ -9,7 +9,7 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager
 import com.intellij.refactoring.suggested.createSmartPointer
 import com.kamagames.inspectionplugin.Annotations.Companion.JAVAX_NULLABLE
 
-private const val PROBLEM_DESCRIPTION = "Boxed types shoul be annotated Nullable"
+private const val PROBLEM_DESCRIPTION = "Boxed types should be annotated @Nullable"
 private val BOXED_TYPES = setOf(
     "java.lang.Boolean",
     "java.lang.Integer",

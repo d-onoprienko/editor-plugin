@@ -1,6 +1,6 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# Inspection-plugin Changelog
+# Inspection plugin Changelog
 
 ## [0.0.1]
 
