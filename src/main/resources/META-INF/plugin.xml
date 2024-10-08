@@ -7,8 +7,6 @@
     <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
     <extensions defaultExtensionNs="com.intellij">
         <localInspection language="JAVA"
                          displayName="@JsonProperty should be used with @Nullable"

@@ -20,16 +20,26 @@ tasks.generateBlockMap.configure {
 }
 
 tasks.uploadPlugin.configure {
+    // todo вынести креды и урл в энвы
     val archive = project.tasks.buildPlugin.get().archiveFile
     val username = "admin"
-    val password = "admin2"
+    val password = "admin"
     url.set("http://localhost:8081/repository/idea-plugin-repo/")
     pluginName.set(project.name)
     file.set(archive.get())
     pluginId.set(project.group.toString())
     version.set(project.version.toString())
-    pluginDescription.set("desc")
-    changeNotes.set("changes")
+    pluginDescription.set(File("README.md").readText())
+    changeNotes.set(version.map { version ->
+        with(changelog) {
+            renderItem(
+                (getOrNull(version) ?: getUnreleased())
+                    .withHeader(false)
+                    .withEmptySections(false),
+                Changelog.OutputType.HTML,
+            )
+        }
+    }.get())
     repoType.set(PluginUploader.RepoType.REST_PUT)
     // Example for Basic type authentication
     authentication.set("Basic " + String(Base64.getEncoder().encode("$username:$password".encodeToByteArray())))
@@ -108,26 +118,6 @@ intellijPlatform {
             untilBuild = providers.gradleProperty("pluginUntilBuild")
         }
     }
-
-    signing {
-        certificateChain = providers.environmentVariable("CERTIFICATE_CHAIN")
-        privateKey = providers.environmentVariable("PRIVATE_KEY")
-        password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
-    }
-
-    publishing {
-        token = providers.environmentVariable("PUBLISH_TOKEN")
-        // The pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
-        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
-        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
-        channels = providers.gradleProperty("pluginVersion").map { listOf(it.substringAfter('-', "").substringBefore('.').ifEmpty { "default" }) }
-    }
-
-    pluginVerification {
-        ides {
-            recommended()
-        }
-    }
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
@@ -150,10 +140,6 @@ kover {
 tasks {
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
-    }
-
-    publishPlugin {
-        dependsOn(patchChangelog)
     }
 }
 
